@@ -1,13 +1,27 @@
+
 <?php
 session_start();
-if(isset($_SESSION["user"]) && isset($_SESSION["userid"])){
-	session_regenerate_id();
-	if($page !== "edit.php" && $page !== "control.php"){
-		exit(header("Location: control.php"));
-	}
-}else{
-	if($page !== 'index.php') {
-		exit(header("Location: index.php"));
-	}	
+session_regenerate_id(true);
+
+function isLoggedIn() {
+    return isset($_SESSION["user"]) && isset($_SESSION["userid"]);
+}
+
+function requireLogin() {
+    if (!isLoggedIn()) {
+        header("Location: index.php");
+        exit();
+    }
+}
+
+function preventAuthenticatedAccess() {
+    if (isLoggedIn()) {
+        header("Location: control.php");
+        exit();
+    }
+}
+
+if (basename($_SERVER['PHP_SELF']) !== 'index.php') {
+    requireLogin();
 }
 ?>
