@@ -7,12 +7,13 @@ $error = "";
 $success = "";
 
 if (isset($_POST["submit"])) {
-    $username = filter_input(INPUT_POST, "user", FILTER_SANITIZE_STRING);
+    $username = filter_input(INPUT_POST, "user", FILTER_SANITIZE_SPECIAL_CHARS);
     $password = $_POST["pass"];
 
     if ($username && $password) {
+        $pdo = Database::getInstance();
         $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? AND password = ? LIMIT 1");
-        $stmt->execute([$username, md5($password)]);
+        $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT)]);
 
         if ($row = $stmt->fetch()) {
             $_SESSION["user"] = $username;
