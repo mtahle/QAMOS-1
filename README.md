@@ -1,25 +1,52 @@
+
 # QAMOS - قاموس
 > سكربت قاموس لترجمة المصطلحات التقنية
 ```YML
- Build-Version: 0.1 
- Status: Under Development ( Beta )
+ Build-Version: 0.2
+ Status: Under Development (Beta)
 ```
 ***
 ![](https://aosus.org/uploads/default/original/2X/9/9e588728bbb0b8f598c267d7e362d28df0269e2c.png)
 
-[Live Version]: http://192.99.83.100/
 ## Requirements:
-+ Apache Server 2.4.10+
-+ PHP 5+
++ PHP 8.2+
++ MySQL/MariaDB
++ Modern Web Browser
+
+## Features:
++ Modern PHP 8.2 Implementation
++ Secure Authentication System
++ PDO Database Connection with Prepared Statements
++ Word Management (Add, Edit, Delete)
++ Rename Words Option in Edit Panel
++ Arabic-English Technical Dictionary
+
 ## ToDo-List:
-- [ ] Format And Order Codes To SpeedUp The Performance
-- [ ] Create An Api For Admins For Remote Access
-- [ ] Built-In Live Chat For Vistors
-- [ ] Extra Secuirty
-- [ ] Upgrade Administration Panel Design , Functionality
+- [x] Format And Order Codes To SpeedUp The Performance
 - [x] Adding Rename Words Option In The Edit Panel
-- [ ] Create Web Panel ( Change Password, Change E-Mail, Change Logo Image , Maintance Mode ..etc)
-- [ ] Create Permissions System ( Add, Verfiy, Delete, Rename)
----
-#### Contact Me ( **Telegram - Username** ) : @ProMan347
-###### *@Copyrights 2017-2018 _Aosus_ All Rights Reserved*
+- [ ] Create An Api For Admins For Remote Access
+- [ ] Built-In Live Chat For Visitors
+- [ ] Extra Security Features:
+  - [ ] Rate Limiting
+  - [ ] IP Logging
+  - [ ] 2FA Authentication
+- [ ] Upgrade Administration Panel Design & Functionality
+- [ ] Create Web Panel Settings:
+  - [ ] Change Password
+  - [ ] Change E-Mail
+  - [ ] Change Logo Image
+  - [ ] Maintenance Mode
+- [ ] Create Permissions System (Add, Verify, Delete, Rename)
+
+## Security Features
+- Strict Type Checking
+- PDO Prepared Statements
+- Password Hashing
+- Session Security
+- XSS Prevention
+- SQL Injection Protection
+
+#### Contact
+Telegram: @ProMan347
+
+###### *@Copyrights 2017-2024 _Aosus_ All Rights Reserved*
