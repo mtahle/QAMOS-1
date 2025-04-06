@@ -3,28 +3,32 @@
 
 class DatabaseProvider {
     private static ?PDO $instance = null;
-    private const MYSQL_HOST = "0.0.0.0";
-    private const MYSQL_DB = "website";
-    private const MYSQL_USER = "root";
-    private const MYSQL_PASS = "proman";
-    private const SQLITE_PATH = "db/development.sqlite";
     
     public static function getInstance(): PDO {
         if (self::$instance === null) {
             try {
                 if (getenv('DEVELOPMENT_MODE') === 'true') {
                     self::initializeSqlite();
-                    $dsn = "sqlite:" . self::SQLITE_PATH;
+                    $dsn = "sqlite:" . getenv('SQLITE_PATH') ?: "db/development.sqlite";
                     self::$instance = new PDO($dsn);
                     self::$instance->exec('PRAGMA foreign_keys = ON;');
                 } else {
-                    $dsn = "mysql:host=" . self::MYSQL_HOST . ";dbname=" . self::MYSQL_DB . ";charset=utf8mb4";
+                    $dsn = sprintf(
+                        "mysql:host=%s;dbname=%s;charset=utf8mb4",
+                        getenv('MYSQL_HOST') ?: "0.0.0.0",
+                        getenv('MYSQL_DB') ?: "website"
+                    );
                     $options = [
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                         PDO::ATTR_EMULATE_PREPARES => false,
                     ];
-                    self::$instance = new PDO($dsn, self::MYSQL_USER, self::MYSQL_PASS, $options);
+                    self::$instance = new PDO(
+                        $dsn, 
+                        getenv('MYSQL_USER') ?: "root",
+                        getenv('MYSQL_PASSWORD') ?: "proman",
+                        $options
+                    );
                 }
             } catch (PDOException $e) {
                 throw new RuntimeException("Connection failed: " . $e->getMessage());
@@ -35,11 +39,12 @@ class DatabaseProvider {
 
     private static function initializeSqlite(): void {
         if (!file_exists('db')) {
-            mkdir('db');
+            mkdir('db', 0755, true);
         }
         
-        if (!file_exists(self::SQLITE_PATH)) {
-            $db = new PDO("sqlite:" . self::SQLITE_PATH);
+        $sqlitePath = getenv('SQLITE_PATH') ?: "db/development.sqlite";
+        if (!file_exists($sqlitePath)) {
+            $db = new PDO("sqlite:" . $sqlitePath);
             $db->exec('
                 CREATE TABLE IF NOT EXISTS dictionary (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
